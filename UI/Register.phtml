@@ -1,0 +1,64 @@
+<?php
+include_once 'Autoloader.php';
+
+$backE = new Register();
+
+?>
+<head>
+    <title>Registration</title>
+</head>
+<body>
+<h1>
+Registration
+</h1>
+
+<div>
+    <form action= "Register.phtml" method="post">
+
+            <label for= "Username"> Username:</label><br>
+        <input type="text" name = "Username"><br>
+            <label for= "Username"><i><?php $backE->Username = $backE->CheckIfTaken("Username",$_POST["Username"]); ?></i></label><br>
+        
+            <label for= "Email"> Email:</label><br>
+        <input type="Email" name = "Email"><br>
+            <label for= "Email"><i><?php  $backE->Email = $backE->CheckIfTaken("Email",$_POST["Email"]); ?></i></label><br>
+        
+            <label for= "Password"> Password:</label><br>
+        <input type="password" name = "Password"><br>
+            <label for = "password"><i><?php  $backE->Password = $backE->CheckPassword($_POST["Password"], $_POST["PasswordConfirm"]) ?></i></label><br> 
+        
+            <label for= "passwordCheck"> Confirm password:</label><br>
+        <input type="password" name = "PasswordConfirm"><br><br>
+
+        <input type="submit">
+    </form>
+    
+</div>
+<div>
+<?php
+
+    
+    if (
+    $backE->Username===TRUE &&
+    $backE->Email===TRUE &&
+    $backE->Password===TRUE && 
+    $_POST["Username"]!=null 
+    && $_POST["Email"]!=null 
+    && $_POST["Password"]!=null 
+    && $_POST["PasswordConfirm"]!=null){
+        echo "You filled everything out!<br><br>";
+
+        $backE->CreatingUser($_POST["Username"],$_POST["Email"],$_POST["Password"]);
+
+        echo '<meta http-equiv = "refresh" content = "0; url = /DirtGame/UI/GameScreen.phtml" />';
+    }else{
+        echo "You left out some of the input fields!";
+    }
+    
+    ?>
+</div>
+
+<div>
+    <a href="/DirtGame/UI/WelcomePage.phtml">Back to Main Menu</a>
+</div>
+</body>

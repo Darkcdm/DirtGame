@@ -1,0 +1,54 @@
+<?php
+include_once 'Autoloader.php';
+?>
+
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>
+
+        <?php
+
+        $db = new dbTool();
+        $infoPage = new infoPage();
+        $sql =
+            "SELECT ChunkID, X, Y, Type, Username, BuildingID
+            FROM DirtGame.ChunkMap
+            LEFT JOIN DirtGame.Users
+            ON Users.idUsers = ChunkMap.OwnerID
+            WHERE ChunkID = " . $_GET["GridId"] . ";";
+        $dataPool = $db->GetData($sql);
+
+        $gridID = $dataPool["ChunkID"];
+        $x = $dataPool["X"];
+        $y = $dataPool["Y"];
+        $gridType = $dataPool["Type"];
+        $gridOwner = $dataPool["Username"];
+        $buildingID = $dataPool["BuildingID"];
+
+
+
+        echo 'ChunkID: ' . $gridID . '<br>';
+        echo 'Chunk Coords: [' . $x . ';' . $y . ']<br>';
+        echo 'Terrain Type: ' . $gridType . '<br>';
+        echo 'Owner: ' . $gridOwner;
+
+        ?>
+
+    </h1>
+
+    <?php
+
+    $infoPage->CreateBuildingTable($x, $y, $buildingID);
+
+
+    ?>
+</body>
+
+</html>

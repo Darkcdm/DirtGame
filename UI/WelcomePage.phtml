@@ -1,0 +1,21 @@
+<?php
+include_once 'Autoloader.php';
+?>
+<head>
+<title>Welcome</title>
+</head>
+
+<body>
+    <h1>
+    Welcome on DirtGame!
+    </h1>
+
+    <div>
+        <?php
+        //Check if user is logged in##shove him into a gameScreen |OR| shove him into Login/registration
+        $backE = new Welcome();
+        $backE->MainMenu();
+
+        ?>
+    </div>
+</body>

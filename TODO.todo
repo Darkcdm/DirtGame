@@ -1,0 +1,48 @@
+https://marketplace.visualstudio.com/items?itemName=sandy081.todotasks
+New Task:
+    * Press Cmd+Enter (Ctrl+Enter on Windows and Linux) to add a new task
+    * You can also use the Command pallette to create a new task by typing To Do:New Task
+    * If you are on a new line, it will create a new task on the current line
+    * If you are on a line with some text pressing new task shortcut will convert it to a task
+    * New tasks are nested as much as the previous task
+
+More Actions:
+    * Complete a task by pressing Alt+d @done
+    * Re-open a completed task by pressing Alt+d
+    * Cancel a task by pressing Alt+c @cancelled
+    * Complete a cancelled task by pressing Alt+d
+    * You can also use the Command pallette to complete or cancel a task by typing 
+      To Do:Complete Task or To Do:Cancel Task 
+
+Tagging:
+    * You can add tags using @ sign, like this @tag
+    * You can use following pre-existing tags to mark tasks @critical @high @low @today 
+    * Auto intellisense is provided to help you in finding tags
+
+REFACTOR @high
+✔ Building buildings @done (30/12/2021, 02:15:21)
+✔ INFOPAGE @done (25/12/2021, 01:42:10)
+✔ Collecting orders @done (08/01/2022, 20:13:31)
+✔ Time to Collect @done (08/01/2022, 20:15:07)
+✔ Limit the amount of buildings one can build @done (08/01/2022, 23:41:11)
+✔ Implement inventory table @done (09/01/2022, 01:05:47)
+✔ Implement population table @low @done (09/01/2022, 13:18:40)
+✔ implement building table @low @done (09/01/2022, 13:18:42)
+
+
+
+☐ AJAX @low
+☐ autofocus on players Tent
+☐ Colour code owned/worked on squares
+☐ Autofocus on GameScreen if loged in
+☐ add this: https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip
+    to the Game chunks
+☐ Fix Cookies
+☐ Limit orders on the amount of workers one has
+☐ implement option to send multiple workers to one order
+☐ save session into a cookie so it's secure
+☐ map could be only image with hint
+☐ make collecting orders into a form; Multiple collection of orders at once with radio input form
+☐ add walking time to order Time
+☐ different terrain (Water, forrest)
+☐ sanitize ALL OF THE INPUTS

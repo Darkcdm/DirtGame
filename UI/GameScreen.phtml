@@ -1,0 +1,154 @@
+<?php
+include_once 'Autoloader.php';
+
+$backE = new GameScreen();
+
+
+//kick out if user isn't logged in
+$backE->KickNotLoggedIn();
+
+?>
+
+<head>
+    <title>DirtGame map</title>
+</head>
+
+<body>
+
+</body>
+
+<div>
+    <!--Map Settings-->
+
+    <form action="GameScreen.phtml" method="get">
+        Where do you want to start rendering the map?<br>
+        <label for="X"> X:</label><br>
+        <input type="text" name="X" value=5><br>
+        <label for="Y"> Y:</label><br>
+        <input type="text" name="Y" value=5><br>
+        <label for="Size">Size:</label><br>
+        <input type="text" name="Size" value=10><br>
+        <input type="submit" value="submit">
+    </form>
+</div>
+
+<div>
+    <!--Map Area-->
+
+    <?php
+    $backE->renderMap($_GET["X"], $_GET["Y"], $_GET["Size"]);
+    ?>
+</div>
+
+<div>
+    <h1><?php echo $_SESSION["Username"] ?></h1>
+</div>
+
+<div>
+    <!--Possible Orders list-->
+    <form action="/DirtGame/Includes/Actions/CreateOrder.php" target="_blank" method="get">
+        <table>
+
+            <tr>
+                <th colspan="3">Possible Orders</th>
+            </tr>
+
+            <tr>
+                <th>
+                    Assigned Workers
+                </th>
+
+                <th>
+                    Resources
+                </th>
+                <th>
+                    Amount
+                </th>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="text" value="1" name="AssignWorkers" readonly>
+                    <!--Read only until multiple workers can be assinged-->
+                </td>
+                <td>
+                    <select name="Resource">
+                        <option value="dirt">Dirt</option>
+                        <option value="wood">Wood</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" value="1" name="Amount">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit"></input>
+                </td>
+            <tr>
+
+        </table>
+    </form>
+</div>
+
+<div>
+    <!--Pending Orders list-->
+
+    <table>
+
+        <tr>
+            <th colspan="3">Pending Orders</th>
+        </tr>
+
+        <tr>
+            <th>
+                Resources
+            </th>
+
+            <th>
+                Amount
+            </th>
+            <th>
+                TTC
+            </th>
+        </tr>
+        <?php
+        $backE->RenderPendingOrders();
+        ?>
+    </table>
+
+</div>
+
+<div>
+    <!--User Ownership-->
+    <table>
+        <tr>
+            <th colspan="2">Inventory</th>
+        </tr>
+        <tr>
+            <?php
+            //need to fill up with users Inventory of owned resources
+            $backE->RenderInventory();
+            ?>
+        </tr>
+        <tr>
+            <th colspan="2">Population</th>
+        </tr>
+        <tr>
+            <?php
+            //need to fill up with users population
+            $backE->RenderPopulation();
+            ?>
+        </tr>
+        <tr>
+            <th colspan="3">Buildings</th>
+        </tr>
+        <tr>
+            <?php $backE->RenderBuildings(); ?>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <a href="/DirtGame/Includes/Actions/Logout.php">Logout and go back to Main Menu</a>
+</div>
