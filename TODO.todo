@@ -46,3 +46,4 @@ REFACTOR @high
 ☐ add walking time to order Time
 ☐ different terrain (Water, forrest)
 ☐ sanitize ALL OF THE INPUTS
+☐ check/report that user doesn't exists when login in

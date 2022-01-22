@@ -6,8 +6,8 @@ class dbTool
     {
 
         $dbhost = "localhost";
-        $dbuser = "dan";
-        $dbpass = "admin";
+        $dbuser = "root";
+        $dbpass = "root";
         $db = "DirtGame";
         $conn = new mysqli($dbhost, $dbuser, $dbpass, $db) or die("Connect failed: %s\n" . $conn->error);
         $this->conn = $conn;
