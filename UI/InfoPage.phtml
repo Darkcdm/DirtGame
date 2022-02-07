@@ -21,7 +21,7 @@ include_once 'Autoloader.php';
             "SELECT ChunkID, X, Y, Type, Username, BuildingID
             FROM DirtGame.ChunkMap
             LEFT JOIN DirtGame.Users
-            ON Users.idUsers = ChunkMap.OwnerID
+            ON Users.UserID = ChunkMap.OwnerID
             WHERE ChunkID = " . $_GET["GridId"] . ";";
         $dataPool = $db->GetData($sql);
 

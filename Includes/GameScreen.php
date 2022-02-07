@@ -115,9 +115,9 @@ class GameScreen
       FROM
         DirtGame.Users_Inventory
      INNER JOIN 
-     Resource
+     DirtGame.Resource
      ON
-     ItemID = ResourceID
+     Resource.ResourceID = Users_Inventory.ResourceID
       WHERE
         UserID = " . $_SESSION["UserID"] . ";";
 
