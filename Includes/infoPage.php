@@ -5,6 +5,16 @@ class infoPage
 {
     public function CreateBuildingTable($X, $Y, $BuildingID)
     {
+        if ($BuildingID == null){
+            $this->PrintBuildingTable($X, $Y, $BuildingID);
+        }else {
+            $this->PrintRemoveBuildingButton($X, $Y, $BuildingID);
+        }
+        
+
+    }
+    private function PrintBuildingTable($X, $Y, $BuildingID){
+
         $db = new dbTool();
         $sql = "SELECT Building_Type, Description 
         FROM DirtGame.Buildings
@@ -58,6 +68,15 @@ class infoPage
 
 
         echo '</table>';
+    }
+
+    private function PrintRemoveBuildingButton($X, $Y, $BuildingID){
+        $chunkID = ((($X+$Y+1)*($X+$Y))/2)+$Y;
+        echo '
+        <a href="/DirtGame/Includes/Actions/RemoveBuilding.php?GridId='.$chunkID.'&BuildingID='.$BuildingID.'">
+        <button>Remove the current building on this chunk</button>
+        </a>
+        ';
     }
 
     public function PrintResourceList($buildingID){
