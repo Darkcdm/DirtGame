@@ -25,19 +25,20 @@ WHERE
 echo $queryTypeToID;
 $DBpool = $db->GetData($queryTypeToID);
 
+$BuildingID = $DBpool["BuildingID"];
 
 $queryMaxAndCurrentAmount =
-    'SELECT 
-    Buildings.Building_Limit,
-    COUNT(ChunkMap.BuildingID = '.$DBpool["BuildingID"].') AS BuildingCount
+"SELECT 
+COUNT(ChunkMap.BuildingID) AS BuildingCount,
+Buildings.Building_Limit
 FROM
-    DirtGame.Buildings
-        JOIN
-    DirtGame.ChunkMap
+ChunkMap
+INNER JOIN 
+Buildings
+ON
+Buildings.BuildingID = ".$BuildingID."
 WHERE
-    Buildings.BuildingID = '.$DBpool["BuildingID"].'
-        OR ChunkMap.OwnerID = '.$owner.'
-GROUP BY Buildings.Building_Limit;';
+ChunkMap.BuildingID = ".$BuildingID.";";
 
 echo $queryMaxAndCurrentAmount;
 
@@ -58,13 +59,13 @@ if ($buildingLimit > $buildingCount) {
     echo $chunkID;
     $sql =
         "UPDATE `DirtGame`.`ChunkMap` 
-    SET `BuildingID` = '1', `OwnerID` = '" . $owner . "' 
+    SET `BuildingID` = '".$BuildingID."', `OwnerID` = '" . $owner . "' 
     WHERE (`ChunkID` = '" . $chunkID . "');
     ";
     $db->SetData($sql);
 } else {
     //tell the user to fuck off
-    echo "<script>Alert('Building Limit reached');</script>";
+    echo '<script>alert("Building Limit reached");</script>';
 }
 
 
