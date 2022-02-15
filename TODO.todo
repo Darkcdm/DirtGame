@@ -29,6 +29,10 @@ REFACTOR @high
 ✔ Implement population table @low @done (09/01/2022, 13:18:40)
 ✔ implement building table @low @done (09/01/2022, 13:18:42)
 
+✔ be able to remove buildings @done (15/02/2022, 19:22:30)
+☐ Crafting
+☐ building buildings
+
 
 
 ☐ AJAX @low
@@ -47,8 +51,7 @@ REFACTOR @high
 ☐ different terrain (Water, forrest)
 ☐ sanitize ALL OF THE INPUTS
 ☐ check/report that user doesn't exists when login in
-☐ Crafting
-☐ building buildings
+
 ☐ Decide on the scale of the game (one chunk = one a settlement;one chunk = one building; buildings can take multiple chunks)
 
 
