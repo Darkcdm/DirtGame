@@ -37,7 +37,7 @@ if ($dbData["ItemAmount"] == null) {
 
 //add Resources
 $db->SetData($sql);
-//remote order
+//remove order
 $sql = "DELETE FROM `DirtGame`.`Orders` WHERE (`idOrders` = '" . $orderID . "');";
 $db->SetData($sql);
 

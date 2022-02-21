@@ -1,9 +1,10 @@
 <?php
+
 //setting up all import tools
 session_start();
 include_once 'Autoloader.php';
 $db = new dbTool();
-
+$backE = new OrderBackEnd();
 
 //pass GET Variables to local ones
 $AssignWorkers = $_GET["AssignWorkers"];
@@ -19,16 +20,16 @@ $resourceID = $Extract["ResourceID"];
 
 if ($resouceWorkTime == null){
     //crafting
-    $this->crafting($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime);
+    $backE->crafting($resourceID, $ResourceAmount, $AssignWorkers);
 }else{
-    $this->mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime);
+    $backE->mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime);
 }
 
 
 
 
 //Pseudo AJAX FTW
-echo "<script>window.close();</script>";
+//echo "<script>window.close();</script>";
 
 
 
@@ -43,9 +44,10 @@ echo "<script>window.close();</script>";
 
 
 
+class OrderBackEnd{
 
 //functions to clean main code
-function mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime){
+public function mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime){
     $db = new dbTool();
 
     $workTime = $resouceWorkTime * $ResourceAmount;
@@ -60,13 +62,41 @@ function mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime){
 
 
 
-function crafting($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime){
+public function crafting($resourceID, $ResourceAmount, $AssignWorkers){
     $db = new dbTool();
 
-    $workTime = $resouceWorkTime * $ResourceAmount;
- 
+    //get needed ingredients and crafting time /per one resource
+
+    $sql =
+    "SELECT
+    Crafting.Craft_Duration,
+    Crafting.IngredientID,
+    Crafting.IngredientAmount,
+    Crafting.ProductAmount
+    FROM
+    Crafting
+    WHERE
+    Crafting.ProductID = ".$resourceID.";
+    ";
     
+    $dbData = $db->GetData($sql);
+    
+    //calculate working time and real resource gain
+    $workTime = $dbData["Craft_Duration"] * $ResourceAmount;
+    $resourceGain = $dbData["ProductAmount"] * $ResourceAmount;
+    //check if there's enough of resources in players inventory
+        //1) parse ingredient strings from db
+        $ingType = explode(",",$dbData["IngredientID"]);
+        $ingAmount = explode(",",$dbData["IngredientAmount"]);
+
+        //2) Get data about players inventory
+        $sql ;
     $sql =
     "INSERT INTO `DirtGame`.`Orders` (`idUser`, `type`, `ResourceID`, `Amount`, `startingTime`, `OrderTime`, `UsedWorkers`) 
-    VALUES ('" . $_SESSION["UserID"] . "', 'craft', '" . $resourceID . "', '" . $ResourceAmount . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
+    VALUES ('" . $_SESSION["UserID"] . "', 'craft', '" . $resourceID . "', '" . $resourceGain . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
+    echo $sql;
+    echo "<br>";
+    $db->SetData($sql);
+    
+}
 }
