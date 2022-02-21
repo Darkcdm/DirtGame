@@ -1,49 +1,72 @@
 <?php
+//setting up all import tools
 session_start();
-
 include_once 'Autoloader.php';
-
 $db = new dbTool();
 
-echo "creating order";
 
 //pass GET Variables to local ones
 $AssignWorkers = $_GET["AssignWorkers"];
 $Resource = $_GET["Resource"];
 $ResourceAmount = $_GET["Amount"];
 
-//DEBUG;Passing Variables work
-echo "<br>";
-echo $AssignWorkers;
-echo "<br>";
-echo $Resource;
-echo "<br>";
-echo $ResourceAmount;
-echo "<br>";
 
-echo "test";
-$Exctract = $db->GetData('SELECT * FROM DirtGame.Resource Where ResourceName = "' . $Resource . '";');
-echo "test";
-$resouceWorkTime = $Exctract["WorkDuration"];
-$resourceID = $Exctract["ResourceID"];
+//get data about the ordered resource 
+$Extract = $db->GetData('SELECT * FROM DirtGame.Resource Where ResourceName = "' . $Resource . '";');
 
-$workTime = $resouceWorkTime * $ResourceAmount;
-echo $workTime;
-echo "<br>";
-$sql =
-    "INSERT INTO `DirtGame`.`Orders` (`idUser`, `type`, `ResourceID`, `Amount`, `startingTime`, `OrderTime`, `UsedWorkers`) 
-VALUES ('" . $_SESSION["UserID"] . "', 'mine', '" . $resourceID . "', '" . $ResourceAmount . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
+$resouceWorkTime = $Extract["WorkDuration"];
+$resourceID = $Extract["ResourceID"];
 
-echo $sql;
-echo "<br>";
-$db->SetData($sql);
+if ($resouceWorkTime == null){
+    //crafting
+    $this->crafting($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime);
+}else{
+    $this->mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime);
+}
 
 
+
+
+//Pseudo AJAX FTW
 echo "<script>window.close();</script>";
 
 
-echo '
-<head>
-<title>HTML Meta Tag</title>
-      <meta http-equiv = "refresh" content = "0; url = http://ubuntutest/DirtGame/UI/GameScreen.phtml" />
-</head>';
+
+
+
+
+
+
+
+
+
+
+
+
+
+//functions to clean main code
+function mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime){
+    $db = new dbTool();
+
+    $workTime = $resouceWorkTime * $ResourceAmount;
+    //put order into database
+    $sql =
+    "INSERT INTO `DirtGame`.`Orders` (`idUser`, `type`, `ResourceID`, `Amount`, `startingTime`, `OrderTime`, `UsedWorkers`) 
+    VALUES ('" . $_SESSION["UserID"] . "', 'mine', '" . $resourceID . "', '" . $ResourceAmount . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
+
+    $db->SetData($sql);
+
+}
+
+
+
+function crafting($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime){
+    $db = new dbTool();
+
+    $workTime = $resouceWorkTime * $ResourceAmount;
+ 
+    
+    $sql =
+    "INSERT INTO `DirtGame`.`Orders` (`idUser`, `type`, `ResourceID`, `Amount`, `startingTime`, `OrderTime`, `UsedWorkers`) 
+    VALUES ('" . $_SESSION["UserID"] . "', 'craft', '" . $resourceID . "', '" . $ResourceAmount . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
+}
