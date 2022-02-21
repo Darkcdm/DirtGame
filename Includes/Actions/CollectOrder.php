@@ -1,7 +1,9 @@
 <?php
 include_once 'Autoloader.php';
-
+$db = new dbTool();
 session_start();
+
+
 echo $_GET["idOrders"] . "<br>";
 echo $_GET["ResourceID"] . "<br>";
 echo $_GET["Amount"] . "<br>";
@@ -18,7 +20,7 @@ FROM
 DirtGame.Users_Inventory
 WHERE
 ResourceID = " . $resource . " AND UserID=" . $userID . ";";
-$db = new dbTool();
+
 
 //check if there's already a row with the wanted resource on the current user
 $dbData = $db->GetData($sql);
