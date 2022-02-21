@@ -106,7 +106,6 @@ class infoPage
             Buildings.Possible_Recipies = Resource.ResourceID
             WHERE
             Resource.WorkDuration IS null;";
-        
             
         }
         

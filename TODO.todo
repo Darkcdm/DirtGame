@@ -30,7 +30,9 @@ REFACTOR @high
 ✔ implement building table @low @done (09/01/2022, 13:18:42)
 
 ✔ be able to remove buildings @done (15/02/2022, 19:22:30)
-☐ Crafting
+☐ Crafting 
+    ☐   make new crafting UI table
+
 ☐ building buildings
 
 
