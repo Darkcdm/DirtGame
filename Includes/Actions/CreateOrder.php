@@ -18,10 +18,10 @@ $Extract = $db->GetData('SELECT * FROM DirtGame.Resource Where ResourceName = "'
 $resouceWorkTime = $Extract["WorkDuration"];
 $resourceID = $Extract["ResourceID"];
 
-if ($resouceWorkTime == null){
+if ($resouceWorkTime == null) {
     //crafting
     $backE->crafting($resourceID, $ResourceAmount, $AssignWorkers);
-}else{
+} else {
     $backE->mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime);
 }
 
@@ -29,7 +29,7 @@ if ($resouceWorkTime == null){
 
 
 //Pseudo AJAX FTW
-//echo "<script>window.close();</script>";
+echo "<script>window.close();</script>";
 
 
 
@@ -44,59 +44,127 @@ if ($resouceWorkTime == null){
 
 
 
-class OrderBackEnd{
+class OrderBackEnd
+{
 
-//functions to clean main code
-public function mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime){
-    $db = new dbTool();
+    //functions to clean main code
+    public function mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime)
+    {
+        $db = new dbTool();
 
-    $workTime = $resouceWorkTime * $ResourceAmount;
-    //put order into database
-    $sql =
-    "INSERT INTO `DirtGame`.`Orders` (`idUser`, `type`, `ResourceID`, `Amount`, `startingTime`, `OrderTime`, `UsedWorkers`) 
+        $workTime = $resouceWorkTime * $ResourceAmount;
+        //put order into database
+        $sql =
+            "INSERT INTO `DirtGame`.`Orders` (`idUser`, `type`, `ResourceID`, `Amount`, `startingTime`, `OrderTime`, `UsedWorkers`) 
     VALUES ('" . $_SESSION["UserID"] . "', 'mine', '" . $resourceID . "', '" . $ResourceAmount . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
 
-    $db->SetData($sql);
-
-}
-
+        $db->SetData($sql);
+    }
 
 
-public function crafting($resourceID, $ResourceAmount, $AssignWorkers){
-    $db = new dbTool();
 
-    //get needed ingredients and crafting time /per one resource
+    public function crafting($resourceID, $ResourceAmount, $AssignWorkers)
+    {
+        $db = new dbTool();
 
-    $sql =
-    "SELECT
-    Crafting.Craft_Duration,
-    Crafting.IngredientID,
-    Crafting.IngredientAmount,
-    Crafting.ProductAmount
-    FROM
-    Crafting
-    WHERE
-    Crafting.ProductID = ".$resourceID.";
-    ";
-    
-    $dbData = $db->GetData($sql);
-    
-    //calculate working time and real resource gain
-    $workTime = $dbData["Craft_Duration"] * $ResourceAmount;
-    $resourceGain = $dbData["ProductAmount"] * $ResourceAmount;
-    //check if there's enough of resources in players inventory
+        //get needed ingredients and crafting time /per one resource
+
+        $sql =
+            "SELECT
+            Crafting.Craft_Duration,
+            Crafting.IngredientID,
+            Crafting.IngredientAmount,
+            Crafting.ProductAmount
+            FROM
+            Crafting
+            WHERE
+            Crafting.ProductID = " . $resourceID . ";
+        ";
+
+        $dbData = $db->GetData($sql);
+
+        //calculate working time and real resource gain
+        $workTime = $dbData["Craft_Duration"] * $ResourceAmount;
+        $resourceGain = $dbData["ProductAmount"] * $ResourceAmount;
+        //check if there's enough of resources in players inventory
         //1) parse ingredient strings from db
-        $ingType = explode(",",$dbData["IngredientID"]);
-        $ingAmount = explode(",",$dbData["IngredientAmount"]);
+        $ingType = explode(",", $dbData["IngredientID"]);
+        $ingAmount = explode(",", $dbData["IngredientAmount"]);
 
         //2) Get data about players inventory
-        $sql ;
-    $sql =
-    "INSERT INTO `DirtGame`.`Orders` (`idUser`, `type`, `ResourceID`, `Amount`, `startingTime`, `OrderTime`, `UsedWorkers`) 
-    VALUES ('" . $_SESSION["UserID"] . "', 'craft', '" . $resourceID . "', '" . $resourceGain . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
-    echo $sql;
-    echo "<br>";
-    $db->SetData($sql);
-    
-}
+        $sql = "SELECT
+        Users_Inventory.ItemAmount
+        FROM
+        Users_Inventory
+        WHERE
+        Users_Inventory.UserID = " . $_SESSION["UserID"] . " AND ";
+        //I need to add a line to the sql script per every resource needed
+        for ($i = 0; $i < count($ingType) - 1; $i++) {
+            $sql = $sql . "Users_Inventory.ResourceID = " . $ingType[$i] . " OR ";
+        }
+        $sql = $sql . "Users_Inventory.ResourceID = " . $ingType[count($ingType) - 1] . ";";
+
+        echo "<br>";
+        echo "<br>";
+        echo $sql;
+        echo "<br>";
+        echo "<br>";
+
+
+
+        $Users_Inventory = $db->GetPureData($sql);
+
+        //3) compare all Arrays to decide if the player has enough resources for the crafting
+        $CanCraft = TRUE;
+
+        for ($i = 0; $i < count($ingAmount); $i++) {
+            $Users_InventoryRow = $Users_Inventory->fetch_assoc();
+
+            if ($Users_InventoryRow["ItemAmount"] >= $ingAmount[$i]) {
+                echo "Enough of: " . $ingType[$i];
+                echo "<br>";
+            } else {
+                if ($Users_InventoryRow["ItemAmount"] == null) {
+                    $this->ResourceAlert($ingType[$i], $ingAmount[$i]);
+
+
+                    $CanCraft = FALSE;
+                } else {
+                    echo "you're missing: " . $ingType[$i];
+                    echo "<br>";
+                    echo "you're missing: " . $Users_InventoryRow["ItemAmount"] - $ingAmount[$i];
+                    echo "<br>";
+                    echo $Users_InventoryRow["ItemAmount"];
+                    echo "<br>";
+                    $CanCraft = FALSE;
+                }
+            }
+        }
+
+
+        if ($CanCraft) {
+            $sql =
+                "INSERT INTO `DirtGame`.`Orders` (`idUser`, `type`, `ResourceID`, `Amount`, `startingTime`, `OrderTime`, `UsedWorkers`) 
+                VALUES ('" . $_SESSION["UserID"] . "', 'craft', '" . $resourceID . "', '" . $resourceGain . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
+            echo $sql;
+            echo "<br>";
+            $db->SetData($sql);
+        }
+    }
+    private function ResourceAlert($ResourceID, $ResourceAmount)
+    {
+
+        $db = new dbTool();
+        $sql =
+            "SELECT
+        Resource.ResourceName
+        FROM
+        Resource
+        WHERE
+        Resource.ResourceID = " . $ResourceID . ";";
+
+        $resourceName = $db->GetData($sql);
+        $alertString = "you're missing " . $ResourceAmount  . " of " . $resourceName["ResourceName"];
+        echo '<script> alert("' . $alertString . '");</script>';
+    }
 }

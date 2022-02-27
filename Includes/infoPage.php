@@ -3,17 +3,22 @@
 
 class infoPage
 {
+    public function KickNotLoggedIn()
+    {
+        if (($_SESSION["UserID"]) == null) {
+            echo '<meta http-equiv = "refresh" content = "10; url = /DirtGame/UI/WelcomePage.phtml" /> ';
+        }
+    }
     public function CreateBuildingTable($X, $Y, $BuildingID)
     {
-        if ($BuildingID == null){
+        if ($BuildingID == null) {
             $this->PrintBuildingTable($X, $Y, $BuildingID);
-        }else {
+        } else {
             $this->PrintRemoveBuildingButton($X, $Y, $BuildingID);
         }
-        
-
     }
-    private function PrintBuildingTable($X, $Y, $BuildingID){
+    private function PrintBuildingTable($X, $Y, $BuildingID)
+    {
 
         $db = new dbTool();
         $sql = "SELECT Building_Type, Description 
@@ -70,33 +75,35 @@ class infoPage
         echo '</table>';
     }
 
-    private function PrintRemoveBuildingButton($X, $Y, $BuildingID){
-        $chunkID = ((($X+$Y+1)*($X+$Y))/2)+$Y;
+    private function PrintRemoveBuildingButton($X, $Y, $BuildingID)
+    {
+        $chunkID = ((($X + $Y + 1) * ($X + $Y)) / 2) + $Y;
         echo '
-        <a href="/DirtGame/Includes/Actions/RemoveBuilding.php?GridId='.$chunkID.'&BuildingID='.$BuildingID.'">
+        <a href="/DirtGame/Includes/Actions/RemoveBuilding.php?GridId=' . $chunkID . '&BuildingID=' . $BuildingID . '">
         <button>Remove the current building on this chunk</button>
         </a>
         ';
     }
 
-    public function PrintResourceList($buildingID){
+    public function PrintResourceList($buildingID)
+    {
         $db = new dbTool();
         //get the info if the chunk has a building
         //get all mineable resources from the tile
-        if ($buildingID==null){
+        if ($buildingID == null) {
             //mining 
-            $sql = 
-            "SELECT 
+            $sql =
+                "SELECT 
             Resource.ResourceName
             FROM
             Resource
             WHERE
             Resource.WorkDuration IS NOT null;
             ";
-        }else{
+        } else {
             //crafting
             $sql =
-            "SELECT 
+                "SELECT 
             Resource.ResourceName
             FROM
             Resource
@@ -106,19 +113,14 @@ class infoPage
             Buildings.Possible_Recipies = Resource.ResourceID
             WHERE
             Resource.WorkDuration IS null;";
-            
         }
-        
+
         //if it's a pure chunk then only mine basic resources
         //if it has a building, then craft assigned recipies
         $Extract = $db->getPureData($sql);
         while ($row = $Extract->fetch_assoc())
-        echo "
-        <option value=".$row["ResourceName"].">".$row["ResourceName"]."</option>
+            echo "
+        <option value=" . $row["ResourceName"] . ">" . $row["ResourceName"] . "</option>
         ";
     }
-
 }
-
-
-        
