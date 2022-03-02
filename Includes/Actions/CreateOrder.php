@@ -59,6 +59,8 @@ class OrderBackEnd
     VALUES ('" . $_SESSION["UserID"] . "', 'mine', '" . $resourceID . "', '" . $ResourceAmount . "', CURRENT_TIMESTAMP(), SEC_TO_TIME(" . $workTime . "), " . $AssignWorkers . ");";
 
         $db->SetData($sql);
+
+        echo '<script> alert("Order Created!");</script>';
     }
 
 
@@ -149,6 +151,8 @@ class OrderBackEnd
             echo $sql;
             echo "<br>";
             $db->SetData($sql);
+
+            echo '<script> alert("Order Created!");</script>';
         }
     }
     private function ResourceAlert($ResourceID, $ResourceAmount)

@@ -5,9 +5,12 @@ class infoPage
 {
     public function KickNotLoggedIn()
     {
-        if (($_SESSION["UserID"]) == null) {
+        //This isn't working for some reason, NEED FIXIN'
+        /* 
+       if ($_SESSION["UserID"] == null) {
             echo '<meta http-equiv = "refresh" content = "10; url = /DirtGame/UI/WelcomePage.phtml" /> ';
         }
+        */
     }
     public function CreateBuildingTable($X, $Y, $BuildingID)
     {
