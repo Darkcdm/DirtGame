@@ -11,6 +11,9 @@ $backE->KickNotLoggedIn();
 
 <head>
     <title>DirtGame map</title>
+    <!--AJAX? HELP!-->
+    <meta http-equiv = "refresh" content = "1">
+
 </head>
 
 <body>
@@ -37,58 +40,12 @@ $backE->KickNotLoggedIn();
 
     <?php
     $backE->renderMap($_GET["X"], $_GET["Y"], $_GET["Size"]);
+    echo "<script>Alert('Building Limit reached');</script>";
     ?>
 </div>
 
 <div>
     <h1><?php echo $_SESSION["Username"] ?></h1>
-</div>
-
-<div>
-    <!--Possible Orders list-->
-    <form action="/DirtGame/Includes/Actions/CreateOrder.php" target="_blank" method="get">
-        <table>
-
-            <tr>
-                <th colspan="3">Possible Orders</th>
-            </tr>
-
-            <tr>
-                <th>
-                    Assigned Workers
-                </th>
-
-                <th>
-                    Resources
-                </th>
-                <th>
-                    Amount
-                </th>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="1" name="AssignWorkers" readonly>
-                    <!--Read only until multiple workers can be assinged-->
-                </td>
-                <td>
-                    <select name="Resource">
-                        <option value="dirt">Dirt</option>
-                        <option value="wood">Wood</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="text" value="1" name="Amount">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <input type="submit"></input>
-                </td>
-            <tr>
-
-        </table>
-    </form>
 </div>
 
 <div>
@@ -102,7 +59,7 @@ $backE->KickNotLoggedIn();
 
         <tr>
             <th>
-                Resources
+                Resource
             </th>
 
             <th>
@@ -124,6 +81,15 @@ $backE->KickNotLoggedIn();
     <table>
         <tr>
             <th colspan="2">Inventory</th>
+        </tr>
+        <tr>
+            <th>
+                Resource
+            </th>
+
+            <th>
+                Amount
+            </th>
         </tr>
         <tr>
             <?php

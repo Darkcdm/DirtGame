@@ -1,7 +1,9 @@
 <?php
 include_once 'Autoloader.php';
-
+$db = new dbTool();
 session_start();
+
+
 echo $_GET["idOrders"] . "<br>";
 echo $_GET["ResourceID"] . "<br>";
 echo $_GET["Amount"] . "<br>";
@@ -17,28 +19,28 @@ ItemAmount
 FROM
 DirtGame.Users_Inventory
 WHERE
-ItemID = " . $resource . " AND UserID=" . $userID . ";";
-$db = new dbTool();
+ResourceID = " . $resource . " AND UserID=" . $userID . ";";
+
 
 //check if there's already a row with the wanted resource on the current user
 $dbData = $db->GetData($sql);
 if ($dbData["ItemAmount"] == null) {
     echo "resource row doesn't exist" . "<br>";
-    $sql = "INSERT INTO `DirtGame`.`Users_Inventory` (`UserID`, `ItemID`, `ItemAmount`) VALUES ('" . $userID . "', '" . $resource . "', '" . $amount . "');
+    $sql = "INSERT INTO `DirtGame`.`Users_Inventory` (`UserID`, `ResourceID`, `ItemAmount`) VALUES ('" . $userID . "', '" . $resource . "', '" . $amount . "');
     ";
     echo $sql;
 } else {
     echo "resource row exist" . "<br>";
     $amountToAdd = $dbData["ItemAmount"] + $amount;
     echo $amountToAdd . "<br>";
-    $sql = "UPDATE `DirtGame`.`Users_Inventory` SET `ItemAmount` = '" . $amountToAdd . "' WHERE (`UserID` = '" . $userID . "' AND `ItemID` = '" . $resource . "');";
+    $sql = "UPDATE `DirtGame`.`Users_Inventory` SET `ItemAmount` = '" . $amountToAdd . "' WHERE (`UserID` = '" . $userID . "' AND `ResourceID` = '" . $resource . "');";
     echo $sql;
 }
 
 //add Resources
 $db->SetData($sql);
-//remote order
+//remove order
 $sql = "DELETE FROM `DirtGame`.`Orders` WHERE (`idOrders` = '" . $orderID . "');";
 $db->SetData($sql);
 
-//echo "<script>window.close();</script>";
+echo "<script>window.close();</script>";

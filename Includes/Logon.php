@@ -16,24 +16,18 @@ class Logon
 
         if ($HashedPasword == $extract["PassHash"]) {
 
-            $this->CompleteLogin($extract["idUsers"], $extract["Username"], $extract["Email"]);
+            $this->CompleteLogin($extract["UserID"], $extract["Username"], $extract["Email"]);
         } else {
             echo "Wrong Password, try again!";
         }
     }
+
+
+
+
     private function CompleteLogin($UserID, $Username, $Email)
     {
-        /*
-        setcookie("UserID", "$UserID", time() + (86400 * 30), "/"); // 86400 = 1 day
-        setcookie("Username", "$Username", time() + (86400 * 30), "/"); // 86400 = 1 day
-        setcookie("Email", "$Email", time() + (86400 * 30), "/"); // 86400 = 1 day
 
-        echo $_COOKIE["UserID"];
-        echo "<br>";
-        echo $_COOKIE["Username"];
-        echo "<br>";
-        echo $_COOKIE["Email"];
-        */
         session_start();
         $_SESSION["UserID"] = $UserID;
         $_SESSION["Username"] = $Username;

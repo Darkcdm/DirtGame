@@ -1,5 +1,11 @@
 <?php
 include_once 'Autoloader.php';
+
+$backE = new infoPage();
+
+//kick out if user isn't logged in
+$backE->KickNotLoggedIn();
+
 ?>
 
 <html>
@@ -15,13 +21,16 @@ include_once 'Autoloader.php';
 
         <?php
 
+
+
+
         $db = new dbTool();
         $infoPage = new infoPage();
         $sql =
             "SELECT ChunkID, X, Y, Type, Username, BuildingID
             FROM DirtGame.ChunkMap
             LEFT JOIN DirtGame.Users
-            ON Users.idUsers = ChunkMap.OwnerID
+            ON Users.UserID = ChunkMap.OwnerID
             WHERE ChunkID = " . $_GET["GridId"] . ";";
         $dataPool = $db->GetData($sql);
 
@@ -49,6 +58,53 @@ include_once 'Autoloader.php';
 
 
     ?>
+    <div>
+        <!--Possible Orders list-->
+        <form action="/DirtGame/Includes/Actions/CreateOrder.php" target="_blank" method="get">
+            <table>
+
+                <tr>
+                    <th colspan="3">Possible Orders</th>
+                </tr>
+
+                <tr>
+                    <th>
+                        Assigned Workers
+                    </th>
+
+                    <th>
+                        Resources
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" value="1" name="AssignWorkers">
+
+                    </td>
+                    <td>
+                        <select name="Resource">
+                            <?php
+                            $infoPage->PrintResourceList($buildingID);
+                            ?>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" value="1" name="Amount">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="submit"></input>
+                    </td>
+                <tr>
+
+            </table>
+        </form>
+    </div>
 </body>
 
 </html>

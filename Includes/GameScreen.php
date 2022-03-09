@@ -28,21 +28,32 @@ class GameScreen
             echo '<tr>';
             for ($X = $startX; $X <= $startX + $Size; $X++) {
 
-                $Extract = $db->GetData("SELECT Type, OwnerID FROM DirtGame.ChunkMap WHERE ChunkID=" . $this->CalcGridID($X, $Y) . ";");
+                $Extract = $db->GetData(
+                "SELECT 
+                    Type, OwnerID, Buildings.Building_Type
+                FROM 
+                    DirtGame.ChunkMap 
+                LEFT JOIN 
+                    Buildings
+                ON 
+                    ChunkMap.BuildingID = Buildings.BuildingID
+                WHERE 
+                    ChunkID=" . $this->CalcGridID($X, $Y) . "
+                    ;");
 
                 echo '<th>
                     <a href="/DirtGame/UI/InfoPage.phtml/?GridId=' . $this->CalcGridID($X, $Y) . '" target="_blank"">
                     <button type="button">
                     ';
-                if ($Extract["Owner"] == null) {
-                    echo '<img src="Img/Smol' . $Extract["Type"] . '.png"><br>
+                if ($Extract["OwnerID"] == null) {
+                    echo '<img src="/DirtGame/UI/Img/' . $Extract["Type"] . '.png"><br>
                     [' . $X . ';' . $Y . '] <br>
                     ' . $Extract["Type"];
                 } else {
                     echo '
-                        <img src="Img/Smol' . $Extract["Type"] . '.png"><br>
+                        <img src="/DirtGame/UI/Img/' . $Extract["Building_Type"] . '.png"><br>
                         [' . $X . ';' . $Y . '] <br>
-                        ' . $Extract["Owner"];
+                        ' . $Extract["Building_Type"];
                 }
                 echo '</button>
                     </a>
@@ -115,9 +126,9 @@ class GameScreen
       FROM
         DirtGame.Users_Inventory
      INNER JOIN 
-     Resource
+     DirtGame.Resource
      ON
-     ItemID = ResourceID
+     Resource.ResourceID = Users_Inventory.ResourceID
       WHERE
         UserID = " . $_SESSION["UserID"] . ";";
 

@@ -29,6 +29,12 @@ REFACTOR @high
 ✔ Implement population table @low @done (09/01/2022, 13:18:40)
 ✔ implement building table @low @done (09/01/2022, 13:18:42)
 
+✔ be able to remove buildings @done (15/02/2022, 19:22:30)
+☐ Crafting 
+    ☐   make new crafting UI table
+
+☐ building buildings
+
 
 
 ☐ AJAX @low
@@ -40,7 +46,7 @@ REFACTOR @high
 ☐ Fix Cookies
 ☐ Limit orders on the amount of workers one has
 ☐ implement option to send multiple workers to one order
-☐ save session into a cookie so it's secure
+✘ save session into a cookie so it's secure @cancelled (31. 1. 2022 6:01:14)
 ☐ map could be only image with hint
 ☐ make collecting orders into a form; Multiple collection of orders at once with radio input form
 ☐ add walking time to order Time
@@ -48,7 +54,7 @@ REFACTOR @high
 ☐ sanitize ALL OF THE INPUTS
 ☐ check/report that user doesn't exists when login in
 
-
+☐ Decide on the scale of the game (one chunk = one a settlement;one chunk = one building; buildings can take multiple chunks)
 
 
 
