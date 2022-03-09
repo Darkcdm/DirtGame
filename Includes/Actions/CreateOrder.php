@@ -12,20 +12,20 @@ $Resource = $_GET["Resource"];
 $ResourceAmount = $_GET["Amount"];
 
 
-$backE->CheckWorkers($AssignWorkers);
 //get data about the ordered resource 
 $Extract = $db->GetData('SELECT * FROM DirtGame.Resource Where ResourceName = "' . $Resource . '";');
 
-$resouceWorkTime = $Extract["WorkDuration"];
+$resouceWorkTime = $Extract["WorkDuration"] / $AssignWorkers;
 $resourceID = $Extract["ResourceID"];
 
-if ($resouceWorkTime == null) {
-    //crafting
-    $backE->crafting($resourceID, $ResourceAmount, $AssignWorkers);
-} else {
-    $backE->mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime);
+if ($backE->CheckWorkers($AssignWorkers)) {
+    if ($resouceWorkTime == null) {
+        //crafting
+        $backE->crafting($resourceID, $ResourceAmount, $AssignWorkers);
+    } else {
+        $backE->mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime);
+    }
 }
-
 
 
 
@@ -56,7 +56,7 @@ class OrderBackEnd
         //get amount of workers being used + get amount of workers one player has
         $sql = "SELECT PeopleAmount
         FROM Users_Population
-        WHERE PeopleID = 1;";
+        WHERE PeopleID = " . $_SESSION["UserID"] . ";";
 
         $data = $db->GetData($sql);
         $MaxAmountOfWorkers = $data["PeopleAmount"];
@@ -68,17 +68,23 @@ class OrderBackEnd
         $data = $db->GetData($sql);
         $AmountOfWorkersInUse = $data["COUNT(UsedWorkers)"];
 
+
+
         if ($AmountOfWorkersInUse < $MaxAmountOfWorkers) {
             //user have workers in reserve
             $workersToBeUsed = $MaxAmountOfWorkers - $AmountOfWorkersInUse - $AssignWorkers;
 
-            if ($workersToBeUsed <= 0) {
+            if ($workersToBeUsed < 0) {
                 //user doesn't have enough workers left for his order
-                $this->Alert($workersToBeUsed);
+                //$this->Alert($workersToBeUsed);
+                $this->Alert("You don't have enought workers to make this order.");
+                return FALSE;
+            } else {
+                return TRUE;
             }
         } else {
             //user has no workers left
-
+            $this->Alert("You don't have any workers left for this.");
         }
     }
     public function mining($resourceID, $ResourceAmount, $AssignWorkers, $resouceWorkTime)
