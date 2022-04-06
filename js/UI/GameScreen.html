@@ -1,5 +1,36 @@
 <!DOCTYPE html>
 <head>
+	<title>Game Screen</title>
 	<script src="http://darkserver/DirtGame/js/Includes/GameScreen.js"></script>
 </head>
-<body onload="load()" id="body"></body>
+<body id="body" onload="generateMap('default', 0)">
+	<div id="MapForm">
+		<!--Map Settings-->
+
+		<form method="get">
+			Where do you want to start rendering the map?<br />
+			<label for="X"> X:</label><br />
+			<input
+				type="text"
+				name="X"
+				value="5"
+				onkeyup="generateMap('x' ,this.value)"
+			/><br />
+			<label for="Y"> Y:</label><br />
+			<input
+				type="text"
+				name="Y"
+				value="5"
+				onkeyup="generateMap('y' ,this.value)"
+			/><br />
+			<label for="Size">Size:</label><br />
+			<input
+				type="text"
+				name="Size"
+				value="10"
+				onkeyup="generateMap('size' ,this.value)"
+			/><br />
+		</form>
+	</div>
+	<div id="mapArea"></div>
+</body>
