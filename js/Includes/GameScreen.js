@@ -16,14 +16,21 @@ function generateMap(type, val) {
 		default:
 			x = 5;
 			y = 5;
-			size = 5;
+			size = 10;
 	}
 	var test = 0;
+
+	//Clean the gameArea
+	if (document.getElementById("gameTable")) {
+		document.getElementById("gameTable").remove();
+	}
+
 	//Create the table
 	//check that the table hasn't been drawn yet
 
 	var body = document.getElementsByTagName("body")[0];
 	var tbl = document.createElement("table");
+	tbl.id = "gameTable";
 	tbl.s;
 	tbl.style.width = "100%";
 	tbl.setAttribute("border", "1");
