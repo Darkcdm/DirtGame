@@ -20,6 +20,7 @@ function generateMap(type, val) {
 			size = 10;
 	}
 
+	console.log(x, y, size);
 	//get map data from database
 	PullDataAndRender(x, y, size);
 }
