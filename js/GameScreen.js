@@ -1,9 +1,9 @@
 var map;
 function generateMap(type, val) {
 	//parse input
-	var x = 5;
-	var y = 5;
-	var size = 5;
+	let x = 5;
+	let y = 5;
+	let size = 10;
 	switch (type) {
 		case "x":
 			x = val;
@@ -20,7 +20,7 @@ function generateMap(type, val) {
 			size = 10;
 	}
 
-	console.log(x, y, size);
+	console.log(typeof x, typeof y, typeof size);
 	//get map data from database
 	PullDataAndRender(x, y, size);
 }
@@ -58,7 +58,7 @@ function renderMap(mapData, x, y, size) {
 
 	//Create the table
 	var counter = 0;
-
+	//console.log(mapData);
 	var body = document.getElementsByTagName("body")[0];
 	var tbl = document.createElement("table");
 	tbl.id = "gameTable";
@@ -68,9 +68,10 @@ function renderMap(mapData, x, y, size) {
 	var tbdy = document.createElement("tbody");
 	for (var gridY = y; gridY < size + y; gridY++) {
 		var tr = document.createElement("tr");
-		for (var gridX = x; gridX < size + y; gridX++) {
+		for (var gridX = x; gridX < size + x; gridX++) {
 			//FILLING THE INDIVIDUAL CELLS HERE
 			var td = document.createElement("td");
+
 			td.innerHTML =
 				"[" + gridX + "," + gridY + "]" + "<br>" + mapData[counter][0];
 			counter++;
