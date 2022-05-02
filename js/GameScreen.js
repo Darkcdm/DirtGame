@@ -4,15 +4,17 @@ function generateMap(type, val) {
 	let x = 5;
 	let y = 5;
 	let size = 10;
+
+	//getting string, needs to be converted to integer
 	switch (type) {
 		case "x":
-			x = val;
+			x = Number(val);
 			break;
 		case "y":
-			y = val;
+			y = Number(val);
 			break;
 		case "size":
-			size = val;
+			size = Number(val);
 			break;
 		default:
 			x = 5;
@@ -70,14 +72,40 @@ function renderMap(mapData, x, y, size) {
 		var tr = document.createElement("tr");
 		for (var gridX = x; gridX < size + x; gridX++) {
 			//FILLING THE INDIVIDUAL CELLS HERE
+			//get the right index to work with
+			var index = null;
+			var gridId = CalcGridID(gridX, gridY);
+			for (i = 0; index == null; i++) {
+				if (mapData[i][3] == gridId) {
+					index = i;
+					break;
+				}
+			}
+			console.log(index);
+			//make variables from DataBase data
+			var terrain = mapData[index][0];
+			var owner = mapData[index][1];
+			var building = mapData[index][2];
+
+			//creating elements in each cell
 			var td = document.createElement("td");
 			var img = document.createElement("IMG");
 
-			img.setAttribute("src", "Img/Field.png");
+			//if there is a building on a cell, but down the icon of the building.
+			if (building != null) {
+				img.setAttribute("src", "Img/" + building + ".png");
+			} else {
+				//otherwise show terrain icon
 
-			td.innerHTML =
-				"[" + gridX + "," + gridY + "]" + "<br>" + mapData[counter][0];
+				img.setAttribute("src", "Img/" + terrain + ".png");
+			}
+
+			//adding bloat text
+			td.innerHTML = "[" + gridX + "," + gridY + "]" + "<br>" + terrain;
+
+			//couter going up
 			counter++;
+			//append elements on the document
 			td.appendChild(img);
 			tr.appendChild(td);
 		}
@@ -85,4 +113,8 @@ function renderMap(mapData, x, y, size) {
 	}
 	tbl.appendChild(tbdy);
 	document.getElementById("mapArea").appendChild(tbl);
+}
+
+function CalcGridID(X, Y) {
+	return 0.5 * (X + Y) * (X + Y + 1) + Y;
 }

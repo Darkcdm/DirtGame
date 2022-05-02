@@ -14,7 +14,7 @@ $maxGrid = CalcGridID($startX + $size, $startY + $size);
 
 $sql =
     "SELECT 
-Type, OwnerID, Buildings.Building_Type
+Type, OwnerID, Buildings.Building_Type, ChunkID
     FROM
 DirtGame.ChunkMap
     LEFT JOIN
