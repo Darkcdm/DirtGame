@@ -71,10 +71,14 @@ function renderMap(mapData, x, y, size) {
 		for (var gridX = x; gridX < size + x; gridX++) {
 			//FILLING THE INDIVIDUAL CELLS HERE
 			var td = document.createElement("td");
+			var img = document.createElement("IMG");
+
+			img.setAttribute("src", "Img/Field.png");
 
 			td.innerHTML =
 				"[" + gridX + "," + gridY + "]" + "<br>" + mapData[counter][0];
 			counter++;
+			td.appendChild(img);
 			tr.appendChild(td);
 		}
 		tbdy.appendChild(tr);
