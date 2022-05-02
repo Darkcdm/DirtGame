@@ -1,10 +1,11 @@
 var map;
 function generateMap(type, val) {
 	//parse input
-	let x = 5;
-	let y = 5;
-	let size = 10;
-
+	/*
+	let x = sessionStorage.getItem("x");
+	let y = sessionStorage.getItem("y");
+	let size = sessionStorage.getItem("size");
+*/
 	//getting string, needs to be converted to integer
 	switch (type) {
 		case "x":
@@ -21,7 +22,11 @@ function generateMap(type, val) {
 			y = 5;
 			size = 10;
 	}
-
+	/*
+	sessionStorage.setItem("x", x);
+	sessionStorage.setItem("y", y);
+	sessionStorage.setItem("size", size);
+	*/
 	console.log(typeof x, typeof y, typeof size);
 	//get map data from database
 	PullDataAndRender(x, y, size);
@@ -81,7 +86,7 @@ function renderMap(mapData, x, y, size) {
 					break;
 				}
 			}
-			console.log(index);
+
 			//make variables from DataBase data
 			var terrain = mapData[index][0];
 			var owner = mapData[index][1];
