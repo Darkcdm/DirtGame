@@ -95,6 +95,7 @@ function renderMap(mapData, x, y, size) {
 			//creating elements in each cell
 			var td = document.createElement("td");
 			var img = document.createElement("IMG");
+			var btn = document.createElement("button");
 
 			//if there is a building on a cell, but down the icon of the building.
 			if (building != null) {
@@ -111,7 +112,8 @@ function renderMap(mapData, x, y, size) {
 			//couter going up
 			counter++;
 			//append elements on the document
-			td.appendChild(img);
+			btn.appendChild(img);
+			td.appendChild(btn);
 			tr.appendChild(td);
 		}
 		tbdy.appendChild(tr);
