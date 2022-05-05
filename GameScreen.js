@@ -1,4 +1,8 @@
 var map;
+function loadPage() {
+	generateMap("default", 0);
+}
+
 function generateMap(type, val) {
 	//parse input
 	/*
