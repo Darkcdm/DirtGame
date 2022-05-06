@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <head>
-	<title>Game Screen</title>
-	<script src="GameScreen.js?check=true"></script>
+  <title>Game Screen</title>
+  <script src="GameScreen.js?check=true"></script>
 </head>
 <body id="body" onload="loadPage()">
-	<div id="MapForm">
-		<!--Map Settings-->
+  <div id="MapForm">
+    <!--Map Settings-->
 
-		<form method="get">
-			Where do you want to start rendering the map?<br />
-			<label for="X"> X:</label><br />
-			<input
-				type="text"
-				name="X"
-				value="5"
-				onkeyup="generateMap('x' ,this.value)"
-			/><br />
-			<label for="Y"> Y:</label><br />
-			<input
-				type="text"
-				name="Y"
-				value="5"
-				onkeyup="generateMap('y' ,this.value)"
-			/><br />
-			<label for="Size">Size:</label><br />
-			<input
-				type="text"
-				name="Size"
-				value="10"
-				onkeyup="generateMap('size' ,this.value)"
-			/><br />
-		</form>
-	</div>
-	<div id="mapArea"></div>
-	<div id="pendingOrders">
-		<tr>
-			<th>Pending Orders</th>
-		</tr>
-		<tr>
-			<th>Resource</th>
-			<th>Amount</th>
-			<th>TTC</th>
-		</tr>
-		<tr onload="renderPendingOrder()"></tr>
-	</div>
+    <form method="get">
+      Where do you want to start rendering the map?<br />
+      <label for="X"> X:</label><br />
+      <input
+        type="text"
+        name="X"
+        value="5"
+        onkeyup="generateMap('x' ,this.value)"
+      /><br />
+      <label for="Y"> Y:</label><br />
+      <input
+        type="text"
+        name="Y"
+        value="5"
+        onkeyup="generateMap('y' ,this.value)"
+      /><br />
+      <label for="Size">Size:</label><br />
+      <input
+        type="text"
+        name="Size"
+        value="10"
+        onkeyup="generateMap('size' ,this.value)"
+      /><br />
+    </form>
+  </div>
+  <div id="mapArea"></div>
+  <div id="pendingOrders">
+    <tr>
+      <th>Pending Orders</th>
+    </tr>
+    <tr>
+      <th>Resource</th>
+      <th>Amount</th>
+      <th>TTC</th>
+    </tr>
+    <tr onload="renderPendingOrder()"></tr>
+  </div>
+
+  <div id="Inventory">
+    <tr>
+      <th>Inventory</th>
+    </tr>
+    <tr>
+      <th>Resource</th>
+      <th>Amount</th>
+      <th>TTC</th>
+    </tr>
+    <tr onload="renderInventory()"></tr>
+  </div>
 </body>
