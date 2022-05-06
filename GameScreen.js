@@ -1,6 +1,7 @@
 var map;
 function loadPage() {
 	generateMap("default", 0);
+	PullDataAndRenderInventory();
 }
 
 function generateMap(type, val) {
@@ -132,7 +133,8 @@ function CalcGridID(X, Y) {
 
 function renderInventory(inventoryData) {}
 
-function PullDataAndRenderinventory() {
+function PullDataAndRenderInventory() {
+	console.log("test");
 	//send userdata to server to check if the user exists
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function () {
