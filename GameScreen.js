@@ -1,6 +1,7 @@
 var map;
 function loadPage() {
 	generateMap("default", 0);
+	renderPendingOrders();
 }
 
 function generateMap(type, val) {
@@ -129,3 +130,5 @@ function renderMap(mapData, x, y, size) {
 function CalcGridID(X, Y) {
 	return 0.5 * (X + Y) * (X + Y + 1) + Y;
 }
+
+function renderPendingOrders() {}
