@@ -1,0 +1,94 @@
+<head>
+	<title>REGISTRATION</title>
+	<style>
+		.center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 200px;
+		}
+	</style>
+</head>
+
+<body class="center" onload="checkLoggin()">
+	<form>
+		<label>Email: </label>
+		<input type="email" id="email" /><br /><br />
+		<label>Password: </label>
+		<input type="password" id="password" /><br /><br />
+		<label>Password again: </label>
+		<input type="password" id="passwordCheck" /><br /><br />
+	</form>
+	<button onclick="registration()">REGISTRATION</button>
+	<p id="TEST"></p>
+</body>
+
+<script>
+	function registration() {
+		//get data from the form
+		const email = document.getElementById("email").value;
+		const password = document.getElementById("password").value;
+		const passwordCheck = document.getElementById("passwordCheck").value;
+
+		//DEBUG
+		console.log(email);
+		console.log(password);
+		console.log(passwordCheck);
+
+		//check that all the inputs are set
+		if (email == "") {
+			document.getElementById("TEST").innerHTML = "You forgot to enter email";
+			return;
+		}
+		if (password == "") {
+			document.getElementById("TEST").innerHTML =
+				"You forgot to enter password";
+			return;
+		}
+		if (passwordCheck == "") {
+			document.getElementById("TEST").innerHTML =
+				"You forgot to enter password to check";
+			return;
+		}
+
+		//send userdata to server to check if the user exists
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				switch (this.responseText) {
+					case "New record created successfully":
+						sessionStorage.setItem("email", email);
+						window.location.replace("showPage.html");
+						break;
+					case "email":
+						document.getElementById("TEST").innerHTML =
+							"This email is already in use";
+						break;
+					case "password":
+						document.getElementById("TEST").innerHTML =
+							"Password fields do not match";
+						break;
+					default:
+						document.getElementById("TEST").innerHTML = this.responseText;
+				}
+			}
+		};
+
+		xhttp.open("POST", "registration.php", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(
+			"email=" +
+				email +
+				"&password=" +
+				password +
+				"&passwordCheck=" +
+				passwordCheck
+		);
+	}
+
+	function checkLoggin() {
+		if (sessionStorage.getItem("email")) {
+			window.location.replace("showPage.html");
+		}
+	}
+</script>
