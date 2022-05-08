@@ -59,6 +59,18 @@ REFACTOR @high
 
 
 
+JS LOGIN/REGISTRATION: 
+    JS/HTML: 
+    ☐ Create welcome page
+    ☐ Login page
+    ☐ Registration page
+
+    PHP:
+    ☐ saving new users to database
+    ☐ checking login info with database
+
+
+
 
 
 
