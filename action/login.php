@@ -6,15 +6,15 @@ $db = new dbTool();
 $email = $_REQUEST["email"];
 $password = $_REQUEST["password"];
 
-$passHash = hash("sha256", $password);
+$passHash = hash("sha512", $password);
 //get data from database
 $sql =
     "SELECT 
-PassHash
+    PassHash, UserID
 FROM
-`D&DCreation`.Users
+    DirtGame.Users
 WHERE
-Email = '" . $email . "'
+    Email = '" . $email . "'
 ;";
 $data = $db->GetData($sql);
 //compare and then return the status
@@ -27,5 +27,5 @@ if ($data["PassHash"] != $passHash) {
     echo "wrong Password";
     exit();
 }
-echo "correct";
+echo $data["UserID"];
 exit();

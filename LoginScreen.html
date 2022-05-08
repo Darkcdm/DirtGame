@@ -42,12 +42,12 @@
           xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
               
+                if( !Number.isNaN(this.responseText)){
+                    sessionStorage.setItem("UserID",this.responseText);
+                  window.location.replace ("GameScreen.html");
+                }
+
                 switch(this.responseText){
-                  case "correct":
-                  sessionStorage.setItem("email",email);
-                  window.location.replace ("showPage.html");
-                  
-                  break;
                   case "wrong Email":
                   document.getElementById("TEST").innerHTML = "Wrong Email";
                   break;
@@ -62,14 +62,14 @@
               
             }
           };
-          xhttp.open("POST", "login.php", true);
+          xhttp.open("POST", "action/login.php", true);
           xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           xhttp.send("email=" + email+"&password="+password);
       
       }
       function checkLoggin() {
-          if (sessionStorage.getItem("email")) {
-              window.location.replace("showPage.html");
+          if (sessionStorage.getItem("UserID")) {
+              window.location.replace("GameScreen.html");
           }
       }
       </script>
