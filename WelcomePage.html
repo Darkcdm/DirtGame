@@ -1,0 +1,21 @@
+<head>
+	<title>Welcome</title>
+</head>
+
+<body>
+	<h1>Welcome on DirtGame!</h1>
+
+	<div>
+		<script>
+			//Check if user is logged in##shove him into a gameScreen |OR| shove him into Login/registration
+			if (sessionStorage.getItem("UserID")) {
+				window.location.replace("GameScreen.html");
+			}
+		</script>
+	</div>
+	<div>
+		<a href="LoginScreen.html">Login</a>
+		/
+		<a href="RegistrationScreen.html">Registration</a>
+	</div>
+</body>
