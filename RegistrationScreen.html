@@ -14,6 +14,8 @@
 	<form>
 		<label>Email: </label>
 		<input type="email" id="email" /><br /><br />
+		<label>Username: </label>
+		<input type="username" id="username" /><br /><br />
 		<label>Password: </label>
 		<input type="password" id="password" /><br /><br />
 		<label>Password again: </label>
@@ -55,11 +57,12 @@
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.onreadystatechange = function () {
 			if (this.readyState == 4 && this.status == 200) {
+				if (!Number.isNaN(this.responseText)) {
+					sessionStorage.setItem("UserID", this.responseText);
+					window.location.replace("GameScreen.html");
+				}
+
 				switch (this.responseText) {
-					case "New record created successfully":
-						sessionStorage.setItem("email", email);
-						window.location.replace("showPage.html");
-						break;
 					case "email":
 						document.getElementById("TEST").innerHTML =
 							"This email is already in use";
@@ -74,7 +77,7 @@
 			}
 		};
 
-		xhttp.open("POST", "registration.php", true);
+		xhttp.open("POST", "action/registration.php", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send(
 			"email=" +
@@ -82,13 +85,15 @@
 				"&password=" +
 				password +
 				"&passwordCheck=" +
-				passwordCheck
+				passwordCheck +
+				"&username=" +
+				username
 		);
 	}
 
 	function checkLoggin() {
-		if (sessionStorage.getItem("email")) {
-			window.location.replace("showPage.html");
+		if (sessionStorage.getItem("UserID")) {
+			window.location.replace("GameScreen.html");
 		}
 	}
 </script>

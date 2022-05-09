@@ -52,9 +52,9 @@ function createUser($password, $email)
 {
     $db = new dbTool();
     //prep password to be put into database
-    $hash = hash('sha256', $password);
+    $hash = hash('sha512', $password);
 
-    $sql = "INSERT INTO `D&DCreation`.`Users` (`Email`, `PassHash`) 
+    $sql = "INSERT INTO `DirtGame`.`Users` (`Email`, `PassHash`) 
     VALUES ('" . $email . "', '" . $hash . "');";
 
     $db->SetData($sql);
