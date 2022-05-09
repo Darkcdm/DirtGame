@@ -1,75 +1,70 @@
 <head>
-    <title>LOGIN</title>
-  </head>
-  
-  <body onload="checkLoggin()">
-      <form>
-          <label>Email: </label>
-          <input type="email" id="email" >
-          <label>Password: </label>
-          <input type="password" id="password"></br></br>
-  
-          
-      </form>
-      <button onclick="login()" >LOGIN</button>
-      <p id="TEST">
-  
-      </p>
-  </body>
-  
-  <script>
-      function login () {
-          //get data from the form
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-  
-          //DEBUG
-          console.log(email);
-          console.log(password);
-  
-          if (email == "") {
-              document.getElementById("TEST").innerHTML = "You forgot to enter email";
-              return;
-          }
-          if (password == "") {
-              document.getElementById("TEST").innerHTML =
-                  "You forgot to enter password";
-              return;
-          }
-  
-          //send userdata to server to check if the user exists
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              
-                if( !Number.isNaN(this.responseText)){
-                    sessionStorage.setItem("UserID",this.responseText);
-                  window.location.replace ("GameScreen.html");
-                }
+	<title>LOGIN</title>
+</head>
 
-                switch(this.responseText){
-                  case "wrong Email":
-                  document.getElementById("TEST").innerHTML = "Wrong Email";
-                  break;
-                  case "wrong Password":
-                  document.getElementById("TEST").innerHTML = "Wrong Password";  
-                  break;
-                    default:
-                      document.getElementById("TEST").innerHTML = "Database Error";
-              }
-                
-              
-              
-            }
-          };
-          xhttp.open("POST", "action/login.php", true);
-          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          xhttp.send("email=" + email+"&password="+password);
-      
-      }
-      function checkLoggin() {
-          if (sessionStorage.getItem("UserID")) {
-              window.location.replace("GameScreen.html");
-          }
-      }
-      </script>
+<body onload="checkLoggin()">
+	<h1>Login</h1>
+	<form>
+		<label for="Email: "> Email:</label><br />
+		<input type="text" name="Email" id="email" /><br />
+		<label for="Password: "> Password:</label><br />
+		<input type="password" name="Password" id="password" /><br /><br />
+	</form>
+	<button onclick="login()">LOGIN</button>
+	<p id="TEST"></p>
+</body>
+<div>
+	<a href="WelcomePage.html">Back to Main Menu</a>
+</div>
+
+<script>
+	function login() {
+		//get data from the form
+		const email = document.getElementById("email").value;
+		const password = document.getElementById("password").value;
+
+		//DEBUG
+		console.log(email);
+		console.log(password);
+
+		if (email == "") {
+			document.getElementById("TEST").innerHTML = "You forgot to enter email";
+			return;
+		}
+		if (password == "") {
+			document.getElementById("TEST").innerHTML =
+				"You forgot to enter password";
+			return;
+		}
+
+		//send userdata to server to check if the user exists
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				if (!Number.isNaN(this.responseText)) {
+					sessionStorage.setItem("UserID", this.responseText);
+					window.location.replace("GameScreen.html");
+				}
+
+				switch (this.responseText) {
+					case "wrong Email":
+						document.getElementById("TEST").innerHTML = "Wrong Email";
+						break;
+					case "wrong Password":
+						document.getElementById("TEST").innerHTML = "Wrong Password";
+						break;
+					default:
+						document.getElementById("TEST").innerHTML = "Database Error";
+				}
+			}
+		};
+		xhttp.open("POST", "action/login.php", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("email=" + email + "&password=" + password);
+	}
+	function checkLoggin() {
+		if (sessionStorage.getItem("UserID")) {
+			window.location.replace("GameScreen.html");
+		}
+	}
+</script>

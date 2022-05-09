@@ -10,34 +10,47 @@
 	</style>
 </head>
 
-<body class="center" onload="checkLoggin()">
-	<form>
-		<label>Email: </label>
-		<input type="email" id="email" /><br /><br />
-		<label>Username: </label>
-		<input type="username" id="username" /><br /><br />
-		<label>Password: </label>
-		<input type="password" id="password" /><br /><br />
-		<label>Password again: </label>
-		<input type="password" id="passwordCheck" /><br /><br />
-	</form>
-	<button onclick="registration()">REGISTRATION</button>
-	<p id="TEST"></p>
+<body onload="checkLoggin()">
+	<h1>Registration</h1>
+	<div>
+		<form>
+			<label>Username: </label><br />
+			<input type="username" id="username" /><br /><br />
+			<label>Email: </label><br />
+			<input type="email" id="email" /><br /><br />
+			<label>Password: </label><br />
+			<input type="password" id="password" /><br /><br />
+			<label>Password again: </label><br />
+			<input type="password" id="passwordCheck" /><br /><br />
+		</form>
+		<button onclick="registration()">REGISTRATION</button>
+		<p id="TEST"></p>
+	</div>
+	<div>
+		<a href="WelcomePage.html">Back to Main Menu</a>
+	</div>
 </body>
 
 <script>
 	function registration() {
 		//get data from the form
+		const username = document.getElementById("username").value;
 		const email = document.getElementById("email").value;
 		const password = document.getElementById("password").value;
 		const passwordCheck = document.getElementById("passwordCheck").value;
 
 		//DEBUG
+		console.log(username);
 		console.log(email);
 		console.log(password);
 		console.log(passwordCheck);
 
 		//check that all the inputs are set
+		if (username == "") {
+			document.getElementById("TEST").innerHTML =
+				"You forgot to enter username";
+			return;
+		}
 		if (email == "") {
 			document.getElementById("TEST").innerHTML = "You forgot to enter email";
 			return;
@@ -63,6 +76,10 @@
 				}
 
 				switch (this.responseText) {
+					case "username":
+						document.getElementById("TEST").innerHTML =
+							"Something is wrong with your username";
+						break;
 					case "email":
 						document.getElementById("TEST").innerHTML =
 							"This email is already in use";
@@ -80,14 +97,14 @@
 		xhttp.open("POST", "action/registration.php", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send(
-			"email=" +
+			"username=" +
+				username +
+				"&email=" +
 				email +
 				"&password=" +
 				password +
 				"&passwordCheck=" +
-				passwordCheck +
-				"&username=" +
-				username
+				passwordCheck
 		);
 	}
 

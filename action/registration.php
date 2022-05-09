@@ -2,6 +2,7 @@
 include_once "dbTool.php";
 
 //get data from the request
+$username = $_REQUEST["username"];
 $email = $_REQUEST["email"];
 $password = $_REQUEST["password"];
 $passwordCheck = $_REQUEST["passwordCheck"];
@@ -18,7 +19,7 @@ if (!checkEmail($email)) {
     echo "email";
     exit();
 }
-createUser($password, $email);
+createUser($username, $password, $email);
 ////////////echo "correct";
 exit();
 
@@ -48,14 +49,14 @@ function checkEmail($email)
     }
 }
 
-function createUser($password, $email)
+function createUser($username, $password, $email)
 {
     $db = new dbTool();
     //prep password to be put into database
     $hash = hash('sha512', $password);
 
-    $sql = "INSERT INTO `DirtGame`.`Users` (`Email`, `PassHash`) 
-    VALUES ('" . $email . "', '" . $hash . "');";
+    $sql = "INSERT INTO `DirtGame`.`Users` (`Username`,`Email`, `PassHash`) 
+    VALUES ('" . $username . "','" . $email . "', '" . $hash . "');";
 
     $db->SetData($sql);
 }
