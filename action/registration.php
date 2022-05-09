@@ -59,4 +59,8 @@ function createUser($username, $password, $email)
     VALUES ('" . $username . "','" . $email . "', '" . $hash . "');";
 
     $db->SetData($sql);
+
+    $sql = "SELECT UserID FROM DirtGame.Users WHERE Email = '" . $email . "';";
+
+    echo $db->GetData($sql)["UserID"];
 }

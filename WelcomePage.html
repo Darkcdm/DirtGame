@@ -2,7 +2,7 @@
 	<title>Welcome</title>
 </head>
 
-<body>
+<body onload="checkLoggin()">
 	<h1>Welcome on DirtGame!</h1>
 
 	<div>
@@ -19,3 +19,11 @@
 		<a href="RegistrationScreen.html">Registration</a>
 	</div>
 </body>
+
+<script>
+	function checkLoggin() {
+		if (sessionStorage.getItem("UserID")) {
+			window.location.replace("GameScreen.html");
+		}
+	}
+</script>

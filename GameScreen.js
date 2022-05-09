@@ -1,5 +1,6 @@
 var map;
 function loadPage() {
+	checkLoggin();
 	generateMap("default", 0);
 	PullDataAndRenderInventory();
 }
@@ -158,5 +159,15 @@ function PullDataAndRenderInventory() {
 	console.log(header);
 	xhttp.send(header);
 }
-
+function checkLoggin() {
+	if (!sessionStorage.getItem("UserID")) {
+		window.location.replace("WelcomePage.html");
+	}
+	console.log(sessionStorage.getItem("UserID"));
+}
 function PullDataAndRenderOrders() {}
+
+function logout() {
+	sessionStorage.removeItem("UserID");
+	window.location.replace("WelcomePage.html");
+}

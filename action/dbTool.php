@@ -51,7 +51,7 @@ class dbTool
         $Conn = $this->conn;
 
         if ($Conn->query($sql) === TRUE) {
-            echo "New record created successfully";
+            //echo "New record created successfully";
         } else {
             echo "Error: " . $sql . "<br>" . $this->conn->error . "<br>";
             $this->CloseCon($this->conn);
