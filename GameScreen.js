@@ -3,6 +3,7 @@ function loadPage() {
 	checkLoggin();
 	generateMap("default", 0);
 	PullDataAndRenderInventory();
+	renderPendingOrder();
 }
 
 function generateMap(type, val) {
@@ -155,7 +156,7 @@ function PullDataAndRenderInventory() {
 	};
 	xhttp.open("POST", "action/PullInventoryData.php", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	var header = sessionStorage.getItem("userID");
+	var header = "UserID=" + sessionStorage.getItem("UserID");
 	console.log(header);
 	xhttp.send(header);
 }
@@ -170,4 +171,75 @@ function PullDataAndRenderOrders() {}
 function logout() {
 	sessionStorage.removeItem("UserID");
 	window.location.replace("WelcomePage.html");
+}
+
+function renderPendingOrder() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			let PullPendingOrdersData = JSON.parse(this.responseText);
+			loadPendingOrder(PullPendingOrdersData);
+		}
+	};
+	xhttp.open("POST", "action/PullPendingOrdersData.php", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	var header = "UserID=" + sessionStorage.getItem("UserID");
+	console.log(header);
+	xhttp.send(header);
+}
+
+function loadPendingOrder(PullPendingOrdersData) {
+	for (var i = 0; i < PullPendingOrdersData.length; i++) {
+		/*
+		idOrders, 
+		--Amount, 
+		--ResourceName,
+		Orders.ResourceID, 
+		-NOW(), 
+		-ADDTIME(startingTime, OrderTime) AS 'FinnishTime'
+		*/
+		let orderID = PullPendingOrdersData[i][0];
+		let resourceAmount = PullPendingOrdersData[i][1];
+		let resourceName = PullPendingOrdersData[i][2];
+		let resourceID = PullPendingOrdersData[i][3];
+		let currentTime = new Date(PullPendingOrdersData[i][4]);
+		let finnishTime = new Date(PullPendingOrdersData[i][5]);
+
+		var tr = document.createElement("tr");
+
+		//printing amount
+		var td = document.createElement("td");
+
+		td.innerText = resourceAmount;
+		tr.appendChild(td);
+		//printing Resource
+		var td = document.createElement("td");
+
+		td.innerText = resourceName;
+		tr.appendChild(td);
+		//printing TTC
+		var td = document.createElement("td");
+
+		if (currentTime > finnishTime) {
+			console.log("Order: " + orderID + " finished");
+
+			let btn = document.createElement("button");
+			btn.innerText = "Collect Order";
+			btn.onclick = function () {
+				collectOrder(orderID, resourceID, resourceAmount);
+			};
+
+			td.appendChild(btn);
+		} else {
+			td.innerText = finnishTime - currentTime;
+		}
+
+		tr.appendChild(td);
+
+		document.getElementById("pendingOrders").appendChild(tr);
+	}
+}
+
+function collectOrder(orderID, resourceID, resourceAmount) {
+	console.log("collectOrder");
 }

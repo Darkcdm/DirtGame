@@ -2,7 +2,7 @@
 include_once "dbTool.php";
 $db = new dbTool();
 
-$userID = $_POST["UserID"];
+$userID = $_REQUEST["UserID"];
 
 $sql = "SELECT 
 ResourceName, ItemAmount
@@ -11,7 +11,7 @@ DirtGame.Users_Inventory
     INNER JOIN
 Resource ON Users_Inventory.ResourceID = Resource.ResourceID
 WHERE
-UserID = 1;";
+UserID = " . $userID . ";";
 
 $datapool = $db->GetPureData($sql)->fetch_all();
 
