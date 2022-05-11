@@ -241,5 +241,24 @@ function loadPendingOrder(PullPendingOrdersData) {
 }
 
 function collectOrder(orderID, resourceID, resourceAmount) {
-	console.log("collectOrder");
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			console.log(this.responseText);
+		}
+		renderPendingOrder();
+	};
+	xhttp.open("POST", "action/collectingOrder.php", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	var header =
+		"UserID=" +
+		sessionStorage.getItem("UserID") +
+		"&orderID=" +
+		orderID +
+		"&resourceID=" +
+		resourceID +
+		"&resourceAmount=" +
+		resourceAmount;
+	console.log(header);
+	xhttp.send(header);
 }
