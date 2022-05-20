@@ -86,9 +86,9 @@ function renderMap(mapData, x, y, size) {
 			//FILLING THE INDIVIDUAL CELLS HERE
 			//get the right index to work with
 			var index = null;
-			var gridId = CalcGridID(gridX, gridY);
+			var gridID = CalcGridID(gridX, gridY);
 			for (i = 0; index == null; i++) {
-				if (mapData[i][3] == gridId) {
+				if (mapData[i][3] == gridID) {
 					index = i;
 					break;
 				}
@@ -104,6 +104,9 @@ function renderMap(mapData, x, y, size) {
 			var img = document.createElement("IMG");
 			var btn = document.createElement("button");
 
+			btn.onclick = function () {
+				window.open("InfoScreen.html?gridID=" + gridID);
+			};
 			//if there is a building on a cell, but down the icon of the building.
 			if (building != null) {
 				img.setAttribute("src", "Img/" + building + ".png");

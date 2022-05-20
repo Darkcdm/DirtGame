@@ -1,0 +1,56 @@
+<html>
+
+<head>
+<script src="InfoScreen.js"></script>
+
+</head>
+
+<body onload="loadHeader()">
+<div>
+        <!--Possible Orders list-->
+        <form action="/DirtGame/Includes/Actions/CreateOrder.php" target="_blank" method="get">
+            <table>
+
+                <tr>
+                    <th colspan="3">Possible Orders</th>
+                </tr>
+
+                <tr>
+                    <th>
+                        Assigned Workers
+                    </th>
+
+                    <th>
+                        Resources
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" value="1" name="AssignWorkers">
+
+                    </td>
+                    <td>
+                        <select name="Resource">
+
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" value="1" name="Amount">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="submit"></input>
+                    </td>
+                <tr>
+
+            </table>
+        </form>
+    </div>
+</body>
+
+</html>
